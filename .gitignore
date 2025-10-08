@@ -1,0 +1,79 @@
+# Archivos de sistema Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.cab
+*.msi
+*.msm
+*.msp
+
+# Archivos temporales de Office
+~$*
+*.tmp
+*.temp
+
+# Archivos de Excel/VBA específicos
+*.xlk
+*.xlsb
+*.xlsm~
+*.xlsx~
+*.xls~
+*.xltx
+*.xltm
+*.xlt
+
+# Archivos de respaldo de VBA
+*.bas~
+*.cls~
+*.frm~
+*.frx~
+*.ctl~
+*.ctx~
+
+# Archivos de configuración local de VSCode
+.vscode/settings.json
+.vscode/launch.json
+.vscode/extensions.json
+
+# Archivos de Cursor IDE
+.cursor/
+
+# Archivos de logs
+*.log
+Logs/
+logs/
+
+# Archivos temporales de compilación
+*.exe
+*.dll
+*.ocx
+*.tlb
+
+# Archivos de base de datos temporales
+*.mdb~
+*.accdb~
+*.ldb
+*.laccdb
+
+# Archivos de Power Query
+*.pq~
+
+# Archivos de configuración local
+config.ini
+settings.ini
+*.local
+
+# Archivos de prueba y desarrollo
+test_*
+*_test.*
+debug_*
+temp_*
+
+# Archivos de documentación temporal
+*.tmp.md
+*.draft.*
+
+# Archivos de Excel con datos sensibles (renombrar si es necesario)
+# *datos_sensibles.xlsx
+# *informacion_privada.xlsm

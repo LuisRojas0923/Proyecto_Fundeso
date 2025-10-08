@@ -1,0 +1,24 @@
+let
+    // Lista de nombres de tablas a anexar
+    TablaNombres = Excel.CurrentWorkbook(){[Name="Tabla18"]}[Content],
+    ListaNombres = TablaNombres[Tb],
+
+    // Todas las tablas existentes en el archivo
+    TablasDisponibles = Excel.CurrentWorkbook(),
+
+    // Intenta buscar cada tabla por nombre, devuelve null si no existe
+    BuscarTablas = List.Transform(
+        ListaNombres,
+        each try TablasDisponibles{[Name = _]}[Content] otherwise null
+    ),
+
+    // Filtrar solo las que existen y son válidas
+    TablasValidas = List.Select(BuscarTablas, each _ is table),
+
+    // Asegurar que la tabla ancla TBL_Plantilla esté incluida al principio
+    TodasLasTablas = List.Combine({ {TBL_Plantilla}, TablasValidas }),
+
+    // Combinar todas
+    Resultado = Table.Combine(TodasLasTablas)
+in
+    Resultado
