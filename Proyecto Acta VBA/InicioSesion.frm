@@ -134,23 +134,44 @@ End Sub
 Private Sub cmdConfiguracion_Click()
     On Error GoTo ErrHandler
     
-    ' Cerrar el formulario de login temporalmente
-    Me.Hide
+    Dim strUsuario As String
+    Dim strPassword As String
     
-    ' Verificar si el usuario ya inicio sesion
-    If m_LoginExitoso Then
-        ' Si ya hay un usuario logueado, abrir configuracion
+    ' Validar que se haya ingresado usuario y contrasena
+    strUsuario = Trim(Me.cmbUsuario.Value)
+    strPassword = Me.txtPassword.Value
+    
+    If strUsuario = "" Then
+        MsgBox "Por favor seleccione un usuario", vbExclamation, "Usuario Requerido"
+        Me.cmbUsuario.SetFocus
+        Exit Sub
+    End If
+    
+    If strPassword = "" Then
+        MsgBox "Por favor ingrese la contrasena", vbExclamation, "Contrasena Requerida"
+        Me.txtPassword.SetFocus
+        Exit Sub
+    End If
+    
+    ' Validar credenciales contra la hoja Config_Sistema
+    If ValidarCredencialesDesdeHoja(strUsuario, strPassword) Then
+        ' Credenciales correctas - abrir configuracion directamente
+        m_LoginExitoso = True
+        UsuarioActual = strUsuario  ' Actualizar variable global
+        Call RegistrarLog("cmdConfiguracion_Click", "Acceso a configuracion exitoso para: " & strUsuario, LOG_INFO)
+        Me.Hide
         Call AbrirHojaConfiguracion
     Else
-        ' Si no hay usuario logueado, pedir autenticacion primero
-        MsgBox "Debe iniciar sesion primero para acceder a la configuracion.", vbExclamation, "Autenticacion Requerida"
-        ' Mostrar nuevamente el formulario
-        Me.Show
+        ' Credenciales incorrectas
+        Call RegistrarAdvertencia("cmdConfiguracion_Click", "Intento de acceso a configuracion fallido para: " & strUsuario)
+        MsgBox "Usuario o contrasena incorrectos", vbCritical, "Acceso Denegado"
+        Me.txtPassword.Value = ""
+        Me.txtPassword.SetFocus
     End If
     
     Exit Sub
 
 ErrHandler:
     Call RegistrarError("cmdConfiguracion_Click", Err.Description)
-    MsgBox "Error al abrir configuracion: " & Err.Description, vbCritical, "Error"
+    MsgBox "Error durante el acceso a configuracion: " & Err.Description, vbCritical, "Error"
 End Sub
